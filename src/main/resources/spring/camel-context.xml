@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:camel="http://camel.apache.org/schema/spring" xmlns:cxf="http://camel.apache.org/schema/cxf"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd        http://camel.apache.org/schema/cxf http://camel.apache.org/schema/cxf/camel-cxf.xsd">
+
+
+	<bean class="com.redhat.demos.openshift.fis.ws.SumProcessor" id="sumProcessor" />
+	<bean class="com.redhat.demos.openshift.fis.ws.AddProcessor" id="addProcessor" />
+	<bean class="com.redhat.demos.openshift.fis.ws.MultiplyProcessor"
+		id="multiplyProcessor" />
+		
+	<!-- Define a traditional camel context here -->
+
+	<camelContext id="camel" xmlns="http://camel.apache.org/schema/spring">
+		<route id="sum">
+			<from id="sumFrom" uri="cxf:bean:sumEndpoint" />
+			<process id="processSum" ref="sumProcessor" />
+		</route>
+		<route id="add">
+			<from id="addFrom" uri="cxf:bean:addEndpoint" />
+			<process id="processAdd" ref="addProcessor" />
+		</route>
+		<route id="multiply">
+			<from id="multiplyFrom" uri="cxf:bean:multiplyEndpoint" />
+			<process id="processMultiply" ref="multiplyProcessor" />
+		</route>
+	</camelContext>
+</beans>
